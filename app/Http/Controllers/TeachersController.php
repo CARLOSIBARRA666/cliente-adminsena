@@ -10,16 +10,18 @@ class TeachersController extends Controller
     private function fetchDataFromApi($url)
     {
         $response = Http::get($url);
-        return $response->json();
+        return $response->object();
     }
 
     public function index()
     {
         $url = env('URL_SERVER_API');
 
-        $teachers = $this->fetchDataFromApi($url . '/teachers');
+        $teachers = collect($this->fetchDataFromApi($url . '/teachers'));
+        $areas = collect($this->fetchDataFromApi($url . '/areas'));
+        $training_centers = collect($this->fetchDataFromApi($url . '/training-centers'));
 
-        return view('teacher.index', compact('teachers'));
+        return view('Teachers.index', compact('teachers', 'areas', 'training_centers'));
     }
 
     public function show($id)
@@ -28,11 +30,18 @@ class TeachersController extends Controller
 
         $teacher = $this->fetchDataFromApi($url . '/teachers/' . $id);
 
-        return view('teacher.show', compact('teacher'));
+        return view('Teachers.show', compact('teacher'));
     }
+
     public function create()
     {
-        return view('teacher.create');
+        $url = env('URL_SERVER_API');
+
+        $teachers = collect($this->fetchDataFromApi($url . '/teachers'));
+        $areas = collect($this->fetchDataFromApi($url . '/areas'));
+        $training_centers = collect($this->fetchDataFromApi($url . '/training-centers'));
+
+        return view('Teachers.create', compact('teachers', 'areas', 'training_centers'));
     }
 
     public function store(Request $request)
@@ -48,7 +57,10 @@ class TeachersController extends Controller
     {
         $url = env('URL_SERVER_API');
         $teacher = $this->fetchDataFromApi($url . '/teachers/' . $id);
-        return view('teacher.edit', compact('teacher'));
+        $areas = collect($this->fetchDataFromApi($url . '/areas'));
+        $training_centers = collect($this->fetchDataFromApi($url . '/training-centers'));
+
+        return view('Teachers.edit', compact('teacher', 'areas', 'training_centers'));
     }
 
     public function update(Request $request, $id)

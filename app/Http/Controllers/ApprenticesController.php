@@ -10,58 +10,105 @@ class ApprenticesController extends Controller
     private function fetchDataFromApi($url)
     {
         $response = Http::get($url);
-        return $response->json();
+        return $response->object();
     }
 
     public function index()
     {
-        $url = env('URL_SERVER_API');
-        $apprentices = $this->fetchDataFromApi($url . '/apprentice');
-        return view('Apprentice.index', compact('apprentices'));
+        return redirect()->route('apprentice.create');
     }
 
     public function show($id)
     {
         $url = env('URL_SERVER_API');
-        $apprentice = $this->fetchDataFromApi($url . '/apprentice/' . $id);
-        return view('Apprentice.show', compact('apprentice'));
+        $apprentice = $this->fetchDataFromApi($url . '/apprentices/' . $id);
+        $courses = collect($this->fetchDataFromApi($url . '/courses'));
+        $computers = collect($this->fetchDataFromApi($url . '/computers'));
+
+        return view('Apprentices.show', compact('apprentice', 'courses', 'computers'));
     }
 
     public function create()
     {
         $url = env('URL_SERVER_API');
-        $courses = $this->fetchDataFromApi($url . '/course');
-        $computers = $this->fetchDataFromApi($url . '/computer');
-        return view('Apprentice.create', compact('courses', 'computers'));
+        $apprentices = collect($this->fetchDataFromApi($url . '/apprentices'));
+        $courses = collect($this->fetchDataFromApi($url . '/courses'));
+        $computers = collect($this->fetchDataFromApi($url . '/computers'));
+
+        return view('Apprentices.create', compact('apprentices', 'courses', 'computers'));
     }
 
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'number' => 'required',
+        ]);
+
         $url = env('URL_SERVER_API');
-        Http::post($url . '/apprentice', $request->all());
-        return redirect()->route('apprentice.index');
+        $response = Http::post($url . '/apprentices', $request->only(
+            'name',
+            'email',
+            'number',
+            'course_id',
+            'computer_id'
+        ));
+
+        if ($response->failed()) {
+            return back()->withInput()->withErrors([
+                'api' => $response->status() === 404
+                    ? 'La API no encontró la ruta para guardar aprendices.'
+                    : ($response->json('message') ?: 'No se pudo guardar el aprendiz. Código: ' . $response->status()),
+            ]);
+        }
+
+        return redirect()->route('apprentice.create')->with('success', 'Aprendiz guardado correctamente.');
     }
 
     public function edit($id)
     {
         $url = env('URL_SERVER_API');
-        $apprentice = $this->fetchDataFromApi($url . '/apprentice/' . $id);
-        $courses = $this->fetchDataFromApi($url . '/course');
-        $computers = $this->fetchDataFromApi($url . '/computer');
-        return view('Apprentice.edit', compact('apprentice', 'courses', 'computers'));
+        $apprentice = $this->fetchDataFromApi($url . '/apprentices/' . $id);
+        $courses = collect($this->fetchDataFromApi($url . '/courses'));
+        $computers = collect($this->fetchDataFromApi($url . '/computers'));
+
+        return view('Apprentices.edit', compact('apprentice', 'courses', 'computers'));
     }
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'number' => 'required',
+        ]);
+
         $url = env('URL_SERVER_API');
-        Http::put($url . '/apprentice/' . $id, $request->all());
-        return redirect()->route('apprentice.index');
+        $response = Http::put($url . '/apprentices/' . $id, $request->only(
+            'name',
+            'email',
+            'number',
+            'course_id',
+            'computer_id'
+        ));
+
+        if ($response->failed()) {
+            return back()->withInput()->withErrors([
+                'api' => $response->status() === 404
+                    ? 'La API no encontró la ruta para actualizar aprendices.'
+                    : ($response->json('message') ?: 'No se pudo actualizar el aprendiz. Código: ' . $response->status()),
+            ]);
+        }
+
+        return redirect()->route('apprentice.create')->with('success', 'Aprendiz actualizado correctamente.');
     }
 
     public function destroy($id)
     {
         $url = env('URL_SERVER_API');
-        Http::delete($url . '/apprentice/' . $id);
-        return redirect()->route('apprentice.index');
+        Http::delete($url . '/apprentices/' . $id);
+
+        return redirect()->route('apprentice.create');
     }
 }

@@ -36,7 +36,7 @@
                     <div class="f-control has-icon mb-3">
                         <label class="label-modern" for="area_id">Área de formación</label>
                         <i class="field-icon bi bi-layers"></i>
-                        <select id="area_id" name="area_id">
+                        <select id="area_id" name="area_id" required>
                             <option value="">Seleccione un área</option>
                             @foreach($areas as $area)
                                 <option value="{{ $area->id }}" {{ old('area_id', $course->area_id) == $area->id ? 'selected' : '' }}>{{ $area->name }}</option>
@@ -47,7 +47,7 @@
                     <div class="f-control has-icon mb-4">
                         <label class="label-modern" for="training_center_id">Centro de formación</label>
                         <i class="field-icon bi bi-buildings"></i>
-                        <select id="training_center_id" name="training_center_id">
+                        <select id="training_center_id" name="training_center_id" required>
                             <option value="">Seleccione un centro</option>
                             @foreach($training_centers as $training_center)
                                 <option value="{{ $training_center->id }}" {{ old('training_center_id', $course->training_center_id) == $training_center->id ? 'selected' : '' }}>{{ $training_center->name }}</option>

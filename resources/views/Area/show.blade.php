@@ -13,7 +13,7 @@
                 <p class="module-subtitle">Detalle del área seleccionada.</p>
             </div>
         </div>
-        <a href="{{ route('area.create') }}" class="btn-modern"><i class="bi bi-arrow-left"></i> Volver al listado</a>
+        <a href="{{ route('area.index') }}" class="btn-modern"><i class="bi bi-arrow-left"></i> Volver al listado</a>
     </div>
 
     <div class="row g-4 mt-1">

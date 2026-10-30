@@ -42,11 +42,11 @@
                     </div>
                     <div class="detail-item">
                         <span class="detail-label">Curso / Ficha</span>
-                        <span class="detail-value">{{ optional($apprentice->course)->course_number ? 'Ficha ' . $apprentice->course->course_number : '—' }}</span>
+                        <span class="detail-value">{{ optional($courses->firstWhere('id', $apprentice->course_id))->course_number ? 'Ficha ' . $courses->firstWhere('id', $apprentice->course_id)->course_number : '—' }}</span>
                     </div>
                     <div class="detail-item">
                         <span class="detail-label">Equipo de cómputo</span>
-                        <span class="detail-value">{{ $apprentice->computer ? 'Equipo ' . $apprentice->computer->number . ' (' . $apprentice->computer->brand . ')' : '—' }}</span>
+                        <span class="detail-value">{{ optional($computers->firstWhere('id', $apprentice->computer_id))->number ? 'Equipo ' . $computers->firstWhere('id', $apprentice->computer_id)->number . ' (' . $computers->firstWhere('id', $apprentice->computer_id)->brand . ')' : '—' }}</span>
                     </div>
                     <div class="detail-item">
                         <span class="detail-label">Fecha de creación</span>

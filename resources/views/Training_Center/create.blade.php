@@ -108,13 +108,13 @@
                         <div class="f-control has-icon mb-3">
                             <label class="label-modern" for="name">Nombre del centro</label>
                             <i class="field-icon bi bi-building"></i>
-                            <input type="text" id="name" name="name" value="{{ old('name') }}" placeholder="Ej: Centro Agroindustrial">
+                            <input type="text" id="name" name="name" value="{{ old('name') }}" placeholder="Ej: Centro de agroindustrial">
                         </div>
 
                         <div class="f-control has-icon mb-4">
                             <label class="label-modern" for="location">Ubicación</label>
                             <i class="field-icon bi bi-geo-alt"></i>
-                            <input type="text" id="location" name="location" value="{{ old('location') }}" placeholder="Ej: Regional Quindío">
+                            <input type="text" id="location" name="location" value="{{ old('location') }}" placeholder="Ej: sena norte">
                         </div>
 
                         <button type="submit" class="btn-modern btn-modern-green w-100 justify-content-center">

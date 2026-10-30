@@ -72,7 +72,7 @@
                                     <td>
                                         <a href="{{ route('apprentice.show', $apprentice->id) }}" class="text-decoration-none text-reset">
                                             <div class="cell-main text-capitalize">{{ $apprentice->name }}</div>
-                                            <div class="cell-sub">{{ optional($apprentice->course)->course_number ? 'Ficha ' . $apprentice->course->course_number : '' }}</div>
+                                            <div class="cell-sub">{{ optional($courses->firstWhere('id', $apprentice->course_id))->course_number ? 'Ficha ' . $courses->firstWhere('id', $apprentice->course_id)->course_number : '' }}</div>
                                         </a>
                                     </td>
                                     <td>
@@ -87,8 +87,8 @@
                                             <span>{{ $apprentice->number }}</span>
                                         </div>
                                     </td>
-                                    <td>{{ optional($apprentice->course)->course_number ?? '—' }}</td>
-                                    <td>{{ $apprentice->computer ? 'Equipo ' . $apprentice->computer->number : '—' }}</td>
+                                    <td>{{ optional($courses->firstWhere('id', $apprentice->course_id))->course_number ?? '—' }}</td>
+                                    <td>{{ optional($computers->firstWhere('id', $apprentice->computer_id))->number ? 'Equipo ' . $computers->firstWhere('id', $apprentice->computer_id)->number : '—' }}</td>
                                     <td class="text-end">
                                         <div class="action-group">
                                             <a href="{{ route('apprentice.show', $apprentice->id) }}" class="btn-icon" title="Ver detalles"><i class="bi bi-eye"></i></a>
@@ -131,19 +131,19 @@
                         <div class="f-control has-icon mb-3">
                             <label class="label-modern" for="name">Nombre completo</label>
                             <i class="field-icon bi bi-person"></i>
-                            <input type="text" id="name" name="name" value="{{ old('name') }}" placeholder="Ej: María Gómez">
+                            <input type="text" id="name" name="name" value="{{ old('name') }}" placeholder="Ej: María Gómez" required>
                         </div>
 
                         <div class="f-control has-icon mb-3">
                             <label class="label-modern" for="email">Correo electrónico</label>
                             <i class="field-icon bi bi-envelope"></i>
-                            <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder="Ej: alumno@misena.edu.co">
+                            <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder="Ej: Aprendix@misena.edu.co" required>
                         </div>
 
                         <div class="f-control has-icon mb-3">
                             <label class="label-modern" for="number">Número de teléfono</label>
                             <i class="field-icon bi bi-telephone"></i>
-                            <input type="text" id="number" name="number" value="{{ old('number') }}" placeholder="Ej: 3001234567">
+                            <input type="text" id="number" name="number" value="{{ old('number') }}" placeholder="Ej: 3001234567" required>
                         </div>
 
                         <div class="f-control has-icon mb-3">

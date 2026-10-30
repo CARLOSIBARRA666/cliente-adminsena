@@ -79,8 +79,8 @@
                                             <span>{{ $course->day }}</span>
                                         </div>
                                     </td>
-                                    <td>{{ optional($course->area)->name ?? '—' }}</td>
-                                    <td>{{ optional($course->trainingCenter)->name ?? '—' }}</td>
+                                    <td>{{ optional($areas->firstWhere('id', $course->area_id))->name ?? '—' }}</td>
+                                    <td>{{ optional($training_centers->firstWhere('id', $course->training_center_id))->name ?? '—' }}</td>
                                     <td class="text-end">
                                         <div class="action-group">
                                             <a href="{{ route('course.show', $course->id) }}" class="btn-icon" title="Ver detalles"><i class="bi bi-eye"></i></a>
@@ -123,19 +123,19 @@
                         <div class="f-control has-icon mb-3">
                             <label class="label-modern" for="course_number">Número de curso</label>
                             <i class="field-icon bi bi-hash"></i>
-                            <input type="text" id="course_number" name="course_number" value="{{ old('course_number') }}" placeholder="Ej: 2654567">
+                            <input type="text" id="course_number" name="course_number" value="{{ old('course_number') }}" placeholder="Ej: 2654567" required>
                         </div>
 
                         <div class="f-control has-icon mb-3">
                             <label class="label-modern" for="day">Día</label>
                             <i class="field-icon bi bi-calendar3"></i>
-                            <input type="text" id="day" name="day" value="{{ old('day') }}" placeholder="Ej: Lunes a Viernes">
+                            <input type="text" id="day" name="day" value="{{ old('day') }}" placeholder="Ej: Lunes a Viernes" required>
                         </div>
 
                         <div class="f-control has-icon mb-3">
                             <label class="label-modern" for="area_id">Área de formación</label>
                             <i class="field-icon bi bi-layers"></i>
-                            <select id="area_id" name="area_id">
+                            <select id="area_id" name="area_id" required>
                                 <option value="">Seleccione un área</option>
                                 @foreach($areas as $area)
                                     <option value="{{ $area->id }}" {{ old('area_id') == $area->id ? 'selected' : '' }}>{{ $area->name }}</option>
@@ -146,7 +146,7 @@
                         <div class="f-control has-icon mb-4">
                             <label class="label-modern" for="training_center_id">Centro de formación</label>
                             <i class="field-icon bi bi-buildings"></i>
-                            <select id="training_center_id" name="training_center_id">
+                            <select id="training_center_id" name="training_center_id" required>
                                 <option value="">Seleccione un centro</option>
                                 @foreach($training_centers as $training_center)
                                     <option value="{{ $training_center->id }}" {{ old('training_center_id') == $training_center->id ? 'selected' : '' }}>{{ $training_center->name }}</option>

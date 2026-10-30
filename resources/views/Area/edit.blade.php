@@ -7,7 +7,7 @@
     <div class="edit-wrap">
 
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <a href="{{ route('area.create') }}" class="btn-modern btn-modern-outline">
+            <a href="{{ route('area.index') }}" class="btn-modern btn-modern-outline">
                 <i class="bi bi-arrow-left"></i> Volver al listado
             </a>
         </div>
@@ -28,7 +28,7 @@
                     </div>
 
                     <div class="d-flex justify-content-end gap-2">
-                        <a href="{{ route('area.create') }}" class="btn-modern btn-modern-outline">Cancelar</a>
+                        <a href="{{ route('area.index') }}" class="btn-modern btn-modern-outline">Cancelar</a>
                         <button type="submit" class="btn-modern btn-modern-green">
                             <i class="bi bi-check2-circle"></i> Actualizar área
                         </button>

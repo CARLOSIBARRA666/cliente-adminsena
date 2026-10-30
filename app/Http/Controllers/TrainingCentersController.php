@@ -15,11 +15,7 @@ class TrainingCentersController extends Controller
 
     public function index()
     {
-        $url = env('URL_SERVER_API');
-
-        $training_centers = collect($this->fetchDataFromApi($url . '/training-centers'));
-
-        return view('Training_Center.index', compact('training_centers'));
+        return redirect()->route('training_center.create');
     }
 
     public function show($id)
@@ -33,7 +29,6 @@ class TrainingCentersController extends Controller
     public function create()
     {
         $url = env('URL_SERVER_API');
-
         $training_centers = collect($this->fetchDataFromApi($url . '/training-centers'));
 
         return view('Training_Center.create', compact('training_centers'));
@@ -41,12 +36,22 @@ class TrainingCentersController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'imagen' => 'required|image|mimes:jpg,jpeg,png,webp|max:5120',
+        ]);
+
         $url = env('URL_SERVER_API');
 
-        Http::post($url . '/training-centers', $request->all());
+        $file = $request->file('imagen');
 
-        return redirect()->route('training_center.create');
+        $response = Http::attach('imagen',file_get_contents($file->getRealPath()),$file->getClientOriginalName())
+        ->post(env('URL_SERVER_API') . '/trainingcenter',['name' => $request->name, 'location'=>$request->location,]);
+
+        return redirect()->route('trainingcenter.index');
     }
+
 
     public function edit($id)
     {

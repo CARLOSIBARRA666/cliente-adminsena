@@ -42,7 +42,7 @@
                     </div>
                     <div class="detail-item">
                         <span class="detail-label">Centro de formación</span>
-                        <span class="detail-value">{{ optional($teacher->trainingCenter)->name ?? '—' }}</span>
+                        <span class="detail-value">{{ optional($teacher->training_center ?? null)->name ?? '—' }}</span>
                     </div>
                     <div class="detail-item">
                         <span class="detail-label">Fecha de creación</span>

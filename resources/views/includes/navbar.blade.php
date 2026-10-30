@@ -65,7 +65,7 @@
                     </a>
                     <ul class="dropdown-menu border-0 shadow-sm mt-2 rounded-3">
                         <li><a class="dropdown-item py-2" href="{{ route('training_center.create') }}" style="font-size: 1rem;">Centros de Formación</a></li>
-                        <li><a class="dropdown-item py-2" href="{{ route('area.create') }}" style="font-size: 1rem;">Áreas</a></li>
+                        <li><a class="dropdown-item py-2" href="{{ route('area.index') }}" style="font-size: 1rem;">Áreas</a></li>
                         <li><a class="dropdown-item py-2" href="{{ route('computer.create') }}" style="font-size: 1rem;">Equipos</a></li>
                     </ul>
                 </li>

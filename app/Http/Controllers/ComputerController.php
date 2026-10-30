@@ -10,16 +10,12 @@ class ComputerController extends Controller
     private function fetchDataFromApi($url)
     {
         $response = Http::get($url);
-        return $response->json();
+        return $response->object();
     }
 
     public function index()
     {
-        $url = env('URL_SERVER_API');
-
-        $computers = collect($this->fetchDataFromApi($url . '/computers'));
-
-        return view('computer.index', compact('computers'));
+        return redirect()->route('computer.create');
     }
 
     public function show($id)
@@ -28,15 +24,15 @@ class ComputerController extends Controller
 
         $computer = $this->fetchDataFromApi($url . '/computers/' . $id);
 
-        return view('computer.show', compact('computer'));
+        return view('Computer.show', compact('computer'));
     }
+
     public function create()
     {
         $url = env('URL_SERVER_API');
-
         $computers = collect($this->fetchDataFromApi($url . '/computers'));
 
-        return view('computer.create', compact('computers'));
+        return view('Computer.create', compact('computers'));
     }
 
     public function store(Request $request)
@@ -52,7 +48,7 @@ class ComputerController extends Controller
     {
         $url = env('URL_SERVER_API');
         $computer = $this->fetchDataFromApi($url . '/computers/' . $id);
-        return view('computer.edit', compact('computer'));
+        return view('Computer.edit', compact('computer'));
     }
 
     public function update(Request $request, $id)

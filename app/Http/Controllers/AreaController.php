@@ -20,7 +20,7 @@ class AreaController extends Controller
         $url = env('URL_SERVER_API');
 
         $areas = collect($this->fetchDataFromApi($url . '/areas'))
-            ->map(fn ($area) => (object) $area);
+            ->map(fn($area) => (object) $area);
 
         return view('area.index', compact('areas'));
     }
@@ -40,16 +40,22 @@ class AreaController extends Controller
         return view('area.create');
     }
 
-    
-    public function store(Request $request)
+      public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'imagen' => 'required|image|mimes:jpg,jpeg,png,webp|max:5120',
+        ]);
+
         $url = env('URL_SERVER_API');
 
-        Http::post($url . '/areas', $request->all());
+        $file = $request->file('imagen');
+
+        $response = Http::attach('imagen',file_get_contents($file->getRealPath()),$file->getClientOriginalName())
+        ->post(env('URL_SERVER_API') . '/areas',['name' => $request->name,]);
 
         return redirect()->route('area.index');
     }
-
     public function edit($id)
     {
         $url = env('URL_SERVER_API');
@@ -65,12 +71,11 @@ class AreaController extends Controller
 
         return redirect()->route('area.index');
     }
-          
+
     public function destroy($id)
     {
         $url = env('URL_SERVER_API');
         Http::delete($url . '/areas/' . $id);
         return redirect()->route('area.index');
     }
-
 }

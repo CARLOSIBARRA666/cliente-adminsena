@@ -38,11 +38,11 @@
                     </div>
                     <div class="detail-item">
                         <span class="detail-label">Área de formación</span>
-                        <span class="detail-value">{{ optional($course->area)->name ?? '—' }}</span>
+                        <span class="detail-value">{{ optional($areas->firstWhere('id', $course->area_id))->name ?? '—' }}</span>
                     </div>
                     <div class="detail-item">
                         <span class="detail-label">Centro de formación</span>
-                        <span class="detail-value">{{ optional($course->trainingCenter)->name ?? '—' }}</span>
+                        <span class="detail-value">{{ optional($training_centers->firstWhere('id', $course->training_center_id))->name ?? '—' }}</span>
                     </div>
                     <div class="detail-item">
                         <span class="detail-label">Fecha de creación</span>

@@ -20,7 +20,7 @@
                 <ul class="list-unstyled d-flex flex-column gap-2 small">
                     <li><a href="{{ route('welcome') }}" class="text-reset text-decoration-none hover-footer-link">Inicio</a></li>
                     <li><a href="{{ route('training_center.create') }}" class="text-reset text-decoration-none hover-footer-link">Centros de Formación</a></li>
-                    <li><a href="{{ route('area.create') }}" class="text-reset text-decoration-none hover-footer-link">Áreas</a></li>
+                    <li><a href="{{ route('area.index') }}" class="text-reset text-decoration-none hover-footer-link">Áreas</a></li>
                 </ul>
             </div>
 

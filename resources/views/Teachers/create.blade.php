@@ -5,7 +5,7 @@
 @section('content')
 <div class="admin-module py-2">
 
-    <!-- Encabezado del módulo -->
+
     <div class="module-header">
         <div class="d-flex align-items-center gap-3">
             <div class="module-icon"><i class="bi bi-person-video3"></i></div>
@@ -79,8 +79,8 @@
                                             <span>{{ $teacher->location }}</span>
                                         </div>
                                     </td>
-                                    <td>{{ optional($teacher->area)->name ?? '—' }}</td>
-                                    <td>{{ optional($teacher->trainingCenter)->name ?? '—' }}</td>
+                                    <td>{{ optional($areas->firstWhere('id', $teacher->area_id))->name ?? '—' }}</td>
+                                    <td>{{ optional($training_centers->firstWhere('id', $teacher->training_center_id))->name ?? '—' }}</td>
                                     <td class="text-end">
                                         <div class="action-group">
                                             <a href="{{ route('teacher.show', $teacher->id) }}" class="btn-icon" title="Ver detalles"><i class="bi bi-eye"></i></a>

@@ -14,8 +14,7 @@ class CourseTeachersController extends Controller
 
     public function index()
     {
-        $course_teachers = collect(Http::get($this->api() . '/course_teachers')->object() ?? []);
-        return view('Course_Teacher.index', compact('course_teachers'));
+        return redirect()->route('course_teacher.create');
     }
 
     public function create()

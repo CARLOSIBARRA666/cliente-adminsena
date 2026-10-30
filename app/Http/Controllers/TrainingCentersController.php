@@ -13,10 +13,15 @@ class TrainingCentersController extends Controller
         return $response->object();
     }
 
-    public function index()
-    {
-        return redirect()->route('training_center.create');
-    }
+ public function index()
+{
+    $url = env('URL_SERVER_API');
+
+    $training_centers = collect($this->fetchDataFromApi($url . '/training-centers'))
+        ->map(fn ($training_center) => (object) $training_center);
+
+    return view('Training_Center.index', compact('training_centers'));
+}
 
     public function show($id)
     {
@@ -28,13 +33,10 @@ class TrainingCentersController extends Controller
     }
     public function create()
     {
-        $url = env('URL_SERVER_API');
-        $training_centers = collect($this->fetchDataFromApi($url . '/training-centers'));
-
-        return view('Training_Center.create', compact('training_centers'));
+        return view('Training_Center.create');
     }
 
-    public function store(Request $request)
+     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
@@ -42,21 +44,31 @@ class TrainingCentersController extends Controller
             'imagen' => 'required|image|mimes:jpg,jpeg,png,webp|max:5120',
         ]);
 
-        $url = env('URL_SERVER_API');
+    $url = env('URL_SERVER_API');
 
-        $file = $request->file('imagen');
+    $file = $request->file('imagen');
 
-        $response = Http::attach('imagen',file_get_contents($file->getRealPath()),$file->getClientOriginalName())
-        ->post(env('URL_SERVER_API') . '/trainingcenter',['name' => $request->name, 'location'=>$request->location,]);
+    $response = Http::attach(
+        'imagen',
+        file_get_contents($file->getRealPath()),
+        $file->getClientOriginalName()
+    )->post($url . '/training-centers', [
+        'name' => $request->name,
+        'location' => $request->location,
+    ]);
 
-        return redirect()->route('trainingcenter.index');
+    if (!$response->successful()) {
+        return back()->withErrors([
+            'error' => $response->json('message') ?? 'No se pudo guardar el centro de formación.'
+        ])->withInput();
     }
 
-
+    return redirect()->route('training_center.index');
+}
     public function edit($id)
     {
         $url = env('URL_SERVER_API');
-        $training_center = $this->fetchDataFromApi($url . '/training-centers/' . $id);
+        $training_center = $this->fetchDataFromApi($url . '/training_centers/' . $id);
         return view('Training_Center.edit', compact('training_center'));
     }
 
